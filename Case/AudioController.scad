@@ -16,49 +16,58 @@ module Base(){
             translate([5,5,0])
                 difference(){
                     cylinder(d=5,h=12,$fn=25);
-                    cylinder(d=2.5,h=12,$fn=25);
+                    cylinder(d=1.7,h=12,$fn=25);
                 }
             translate([95,5,0])
                 difference(){
                     cylinder(d=5,h=12,$fn=25);
-                    cylinder(d=2.5,h=12,$fn=25);
+                    cylinder(d=1.7,h=12,$fn=25);
                 }
             translate([95,65,0])
                 difference(){
                     cylinder(d=5,h=25,$fn=25);
-                    cylinder(d=2.5,h=25,$fn=25);
+                    cylinder(d=1.7,h=25,$fn=25);
                 }
             translate([5,65,0])
                 difference(){
                     cylinder(d=5,h=25,$fn=25);
-                    cylinder(d=2.5,h=25,$fn=25);
+                    cylinder(d=1.7,h=25,$fn=25);
                 }
-            translate([36,35,2])
-                cube([1,35,3]);
-            translate([63,35,2])
-                cube([1,35,3]);
-            translate([36,35,2])
-                cube([28,1,3]);
+            // PCB holder    
+            translate([34,33,2])
+                cube([1,36,3]);
+            translate([62,33,2])
+                cube([1,36,3]);
+            translate([34,32,2])
+                cube([29,1,7]);
+            // Rotary decoder stop
+            difference(){
+                translate([50,20,2])
+                  cylinder(d=8,h=10);
+                translate([46,16,9])
+                rotate([9,0,0])
+                  cube([20,20,5]);
             }
+        }
         // Edge for TopPlate
-        translate([1,1,19])
+        translate([0.8,0.8,19])
         rotate([10,0,0])
-            cube([98,69,25]);
+            cube([98.4,69.4,25]);
         // USB-C port    
         hull() {
             translate([46.25,68,3.5])
               rotate([270,0,0])
-                cylinder(d=3,h=2,$fn=25);
+                cylinder(d=3.1,h=2,$fn=25);
             translate([52.75,68,3.5])
               rotate([270,0,0])
-                cylinder(d=3,h=2,$fn=25);
+                cylinder(d=3.1,h=2,$fn=25);
         }
     }
 }
     
     // Cover
 module TopPlate(){
-    rotate([0,0,0])
+    rotate([10,0,0])
         union(){
             difference(){
                 rotate([-10,0,0])
@@ -105,12 +114,12 @@ module TopPlate(){
                     cylinder(d=7.1,h=33,$fn=50);
             }
             // poles for keeping the rotary pcb in place.
-            translate([57,14,-8.2])
-                cylinder(d=2,h=16,$fn=25);
+            translate([57,14,-10.2])
+                cylinder(d=2,h=18,$fn=25);
             translate([57,14,-4.2])
                 cylinder(d=4,h=12,$fn=25);
-            translate([57,27.5,-8.2])
-                cylinder(d=2,h=16,$fn=25);
+            translate([57,27.5,-10.2])
+                cylinder(d=2,h=18,$fn=25);
             translate([57,27.5,-4.2])
                 cylinder(d=4,h=12,$fn=25);
             
