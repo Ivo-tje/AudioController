@@ -47,7 +47,7 @@ esphome:
     - switch.turn_on: led_enabled
 
 dashboard_import:
-  package_import_url: github://Ivo-tje/AudioController/audiocontroller.yaml
+  package_import_url: github://Ivo-tje/AudioController/audiocontroller.yaml@main
   import_full_config: true
 
 # Define switches to control LED and buzzer from HA
