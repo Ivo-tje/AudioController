@@ -27,7 +27,7 @@ esphome:
   # configuration and updates.
   project:
     name: Ivo-tje.Audio_Controller
-    version: "1.2"
+    version: "1.3"
 # If buzzer is enabled, notify on api connection success
   on_boot:
     priority: -10
@@ -47,7 +47,7 @@ esphome:
     - switch.turn_on: led_enabled
 
 dashboard_import:
-  package_import_url: github://Ivo-tje/AudioController/audiocontroller.yaml@main
+  package_import_url: github://Ivo-tje/AudioController/audiocontroller.yaml@stable
   import_full_config: true
 
 # Define switches to control LED and buzzer from HA
