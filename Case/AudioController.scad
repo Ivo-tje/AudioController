@@ -48,6 +48,13 @@ module Base(){
                 rotate([9,0,0])
                   cube([20,20,5]);
             }
+            // Buzzer mount
+            translate([8,50,8])
+            rotate([90,0,0])
+                difference(){
+                    cylinder(d=14,h=9,$fn=50);
+                    cylinder(d=12,h=9,$fn=75);
+                }
         }
         // Edge for TopPlate
         translate([0.8,0.8,19])
@@ -115,26 +122,30 @@ module TopPlate(){
             }
             // poles for keeping the rotary pcb in place.
             difference(){
-                translate([57,14,-4.2])
+                translate([57,14,-3.3])
                     cylinder(d=4,h=11,$fn=25);
                 translate([57,14,-10.2])
                     cylinder(d=1.7,h=18,$fn=25);
             }
             difference(){
-                translate([57,27.5,-4.2])
+                translate([57,27.5,-3.3])
                     cylinder(d=4,h=11,$fn=25);
                 translate([57,27.5,-10.2])
                     cylinder(d=1.7,h=18,$fn=25);
             }
             // Poles for PN532 PCB
-            translate([35,36.5,-4.2])
-                cylinder(d=3,h=12,$fn=25);
-            translate([35,36.5,2.8])
-                cylinder(d=5,h=5,$fn=25);
-            translate([63,62.5,-4.2])
-                cylinder(d=3,h=12,$fn=25);
-            translate([63,62.5,2.8])
-                cylinder(d=5,h=5,$fn=25);
+            difference(){
+                translate([35,36.5,2.8])
+                    cylinder(d=5,h=5,$fn=25);
+                translate([35,36.5,-4.2])
+                    cylinder(d=3,h=12,$fn=25);
+            }
+            difference(){
+                translate([63,62.5,2.8])
+                    cylinder(d=5,h=5,$fn=25);
+                translate([63,62.5,-4.2])
+                    cylinder(d=2.7,h=12,$fn=25);          
+            }
             // Anti tipping PN532
             translate([63,36.5,2.8])
                 cylinder(d=5,h=5,$fn=25);
@@ -143,6 +154,6 @@ module TopPlate(){
             }
 }
     
-    //Base();
-    translate([0,0,10])
-        TopPlate();
+    Base();
+    //translate([0,0,10])
+    //    TopPlate();
