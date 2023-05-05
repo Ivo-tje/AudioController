@@ -15,23 +15,23 @@ module Base(){
             }
             translate([5,5,0])
                 difference(){
-                    cylinder(d=5,h=12,$fn=25);
-                    cylinder(d=1.7,h=12,$fn=25);
+                    cylinder(d=5,h=21,$fn=25);
+                    cylinder(d=1.7,h=21,$fn=25);
                 }
             translate([95,5,0])
                 difference(){
-                    cylinder(d=5,h=12,$fn=25);
-                    cylinder(d=1.7,h=12,$fn=25);
+                    cylinder(d=5,h=21,$fn=25);
+                    cylinder(d=1.7,h=21,$fn=25);
                 }
             translate([95,65,0])
                 difference(){
-                    cylinder(d=5,h=25,$fn=25);
-                    cylinder(d=1.7,h=25,$fn=25);
+                    cylinder(d=5,h=31,$fn=25);
+                    cylinder(d=1.7,h=31,$fn=25);
                 }
             translate([5,65,0])
                 difference(){
-                    cylinder(d=5,h=25,$fn=25);
-                    cylinder(d=1.7,h=25,$fn=25);
+                    cylinder(d=5,h=31,$fn=25);
+                    cylinder(d=1.7,h=31,$fn=25);
                 }
             // PCB holder    
             translate([34,33,2])
@@ -114,15 +114,18 @@ module TopPlate(){
                     cylinder(d=7.1,h=33,$fn=50);
             }
             // poles for keeping the rotary pcb in place.
-            translate([57,14,-10.2])
-                cylinder(d=2,h=18,$fn=25);
-            translate([57,14,-4.2])
-                cylinder(d=4,h=12,$fn=25);
-            translate([57,27.5,-10.2])
-                cylinder(d=2,h=18,$fn=25);
-            translate([57,27.5,-4.2])
-                cylinder(d=4,h=12,$fn=25);
-            
+            difference(){
+                translate([57,14,-4.2])
+                    cylinder(d=4,h=11,$fn=25);
+                translate([57,14,-10.2])
+                    cylinder(d=1.7,h=18,$fn=25);
+            }
+            difference(){
+                translate([57,27.5,-4.2])
+                    cylinder(d=4,h=11,$fn=25);
+                translate([57,27.5,-10.2])
+                    cylinder(d=1.7,h=18,$fn=25);
+            }
             // Poles for PN532 PCB
             translate([35,36.5,-4.2])
                 cylinder(d=3,h=12,$fn=25);
