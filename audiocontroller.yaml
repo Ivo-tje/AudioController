@@ -23,7 +23,7 @@ esphome:
   # configuration and updates.
   project:
     name: Ivo-tje.Audio_Controller
-    version: "1.6.2"
+    version: "1.6.3"
 # If buzzer is enabled, notify on api connection success
 # Led will flash blue on boot, then turn red until api connection success
   on_boot:
