@@ -21,7 +21,7 @@ blueprint:
 
 trigger_variables:
   audiocontroller_id: !input ac_device
-  audiocontroller_entities: "{{ device_entities('audiocontroller_id') }}"
+  audiocontroller_entities: '{{ device_entities("audiocontroller_id") }}'
 
   volume_knob: >
     {{
@@ -48,18 +48,18 @@ trigger_variables:
 
 trigger:
 - platform: state
-  entity_id: "{{ volume_knob }}"
+  entity_id: '{{ volume_knob }}'
   id: Volume
 - platform: state
-  entity_id: "{{ play_pause }}"
+  entity_id: '{{ play_pause }}'
   id: Play
   from: 'on'
 - platform: state
-  entity_id: "{{ next_button }}"
+  entity_id: '{{ next_button }}'
   id: Next
   from: 'on'
 - platform: state
-  entity_id: "{{ previous_button }}"
+  entity_id: '{{ previous_button }}'
   id: Previous
   from: 'on'
 condition: []
