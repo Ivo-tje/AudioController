@@ -22,7 +22,7 @@ blueprint:
 variables:
   audiocontroller_id: !input ac_device
   audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
-  volume_knob: >
+  vol_knob: >
     {{
       audiocontroller_entities | select("search", "sensor.volume_knob") | list | last
     }}
@@ -62,7 +62,7 @@ action:
 - choose:
   - conditions:
     - condition: state
-      entity_id: {{ volume_knob }}
+      entity_id: {{ vol_knob }}
     sequence:
     - service: media_player.volume_set
       data_template:
