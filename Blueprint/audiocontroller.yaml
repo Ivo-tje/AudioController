@@ -19,9 +19,14 @@ blueprint:
             domain: media_player
           multiple: true
 
-variables:
-  audiocontroller: !input ac_device
-  volume_knob: "{{device_entities(audiocontroller) | select('search', 'volume_knob') | list | first}}"
+trigger_variables:
+  audiocontroller_id: !input ac_device
+  audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
+
+  volume_knob: >
+    {{
+      audiocontroller_entities | selectattr(None, "search", "sensor.volume_knob*") | list | last
+    }}
   play_pause: >-
     {% for entity in device_entities(audiocontroller) -%}
       {%- if entity|regex_search("^\.play_pause") -%}
