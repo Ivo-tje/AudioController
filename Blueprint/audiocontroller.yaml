@@ -21,7 +21,7 @@ blueprint:
 
 trigger_variables:
   audiocontroller_id: !input ac_device
-  audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
+  audiocontroller_entities: "{{ device_entities('audiocontroller_id') }}""
 
   volume_knob: >
     {{
