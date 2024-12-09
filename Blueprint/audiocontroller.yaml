@@ -25,7 +25,7 @@ trigger_variables:
 
   volume_knob: >
     {{
-      audiocontroller_entities | select("search", "sensor.volume_knob*") | list | last
+      audiocontroller_entities | select("search", "sensor.volume_knob") | list | last
     }}
   play_pause: >-
     {% for entity in device_entities(audiocontroller) -%}
