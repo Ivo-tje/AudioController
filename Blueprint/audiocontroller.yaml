@@ -1,0 +1,101 @@
+blueprint:
+  name: AudioController
+  description: Setup AudioController for room
+  author: Ivo Schooneman
+  domain: automation
+  input:
+    ac_device:
+      name: Audio controller device
+      selector:
+        device:
+          filter:
+            - integration: esphome
+              manufacturer: Ivo-tje
+    media_player:
+      name: Media player or group
+      selector:
+        device:
+          entity:
+            domain: media_player
+          multiple: true
+
+variables:
+  audiocontroller: !input ac_device
+  volume_knob: >-
+    {% for entity in device_entities(audiocontroller) -%}
+      {%- if entity|regex_search("volume_knob") -%}
+        {{- entity.entity_id -}}
+      {%- endif -%}
+    {%- endfor -%}
+  play_pause: >-
+    {% for entity in device_entities(audiocontroller) -%}
+      {%- if entity|regex_search("^\.play_pause") -%}
+        {{- entity.entity_id -}}
+      {%- endif -%}
+    {%- endfor -%}
+  next_button: >-
+    {% for entity in device_entities(audiocontroller) -%}
+      {%- if entity|regex_search("^\.next") -%}
+        {{- entity.entity_id -}}
+      {%- endif -%}
+    {%- endfor -%}
+  previous_button: >-
+    {% for entity in device_entities(audiocontroller) -%}
+      {%- if entity|regex_search("^\.previous") -%}
+        {{- entity.entity_id -}}
+      {%- endif -%}
+    {%- endfor -%}
+
+trigger:
+- platform: state
+  entity_id: "{{ volume_knob }}"
+  id: Volume
+- platform: state
+  entity_id: "{{ play_pause }}"
+  id: Play
+  from: 'on'
+- platform: state
+  entity_id: "{{ next_button }}"
+  id: Next
+  from: 'on'
+- platform: state
+  entity_id: "{{ previous_button }}"
+  id: Previous
+  from: 'on'
+condition: []
+action:
+- choose:
+  - conditions:
+    - condition: trigger
+      id: Volume
+    sequence:
+    - service: media_player.volume_set
+      data_template:
+        volume_level: '{{ trigger.to_state.state | float / 100 }}'
+      target:
+        entity_id: !input media_player
+  - conditions:
+    - condition: trigger
+      id: Play
+    sequence:
+    - service: media_player.media_play_pause
+      data: {}
+      target:
+        entity_id: !input media_player
+  - conditions:
+    - condition: trigger
+      id: Next
+    sequence:
+    - service: media_player.media_next_track
+      data: {}
+      target:
+        entity_id: !input media_player
+  - conditions:
+    - condition: trigger
+      id: Previous
+    sequence:
+    - service: media_player.media_previous_track
+      data: {}
+      target:
+        entity_id: !input media_player
+mode: restart
