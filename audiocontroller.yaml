@@ -1,4 +1,8 @@
+# Insert your SSID and Your PWD after inital setup
 wifi:
+# networks:
+#    - ssid: 'REPLACEME'          # Enter your WiFi SSID here. Example: `ssid: 'your_network_name'`
+#      password: 'REPLACEME'      # Enter your wifi password here. Example: `password: 'abcde123456'`
   ap:
 
 # Enable the captive portal for inital WiFi setup
@@ -14,7 +18,7 @@ esphome:
   name: $name
   platform: ESP8266
   board: d1_mini
-
+  
   # Automatically add the mac address to the name
   # so you can use a single firmware for all devices
   name_add_mac_suffix: true
@@ -23,9 +27,8 @@ esphome:
   # configuration and updates.
   project:
     name: Ivo-tje.Audio_Controller
-    version: "1.6.3"
+    version: "1.0"
 # If buzzer is enabled, notify on api connection success
-# Led will flash blue on boot, then turn red until api connection success
   on_boot:
     priority: -10
     then:
@@ -47,6 +50,7 @@ esphome:
         api.connected:
     - logger.log: API is connected!
     - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+
     - light.turn_on:
         id: activity_led
         brightness: 100%
@@ -59,7 +63,7 @@ esphome:
 
 dashboard_import:
   package_import_url: github://Ivo-tje/AudioController/audiocontroller.yaml@latest
-  import_full_config: false
+  import_full_config: true
 
 # Define switches to control LED and buzzer from HA
 switch:
@@ -77,12 +81,20 @@ switch:
   optimistic: true
   restore_mode: RESTORE_DEFAULT_ON
   entity_category: config
-
-# Define buttons for writing tags via HA
+  
+# Define buttons for writing tags via HA 
 button:
+  #- platform: template
+  #  name: "Update Button"
+  #  on_press:
+  #    then:
+  #      - ota.http_request.flash:
+  #          md5_url: http://portal.core.local/firmware/audiocontroller.ota.md5
+  #          url: http://portal.core.local/firmware/audiocontroller.ota.bin
   - platform: template
     name: Write Tag Random
     id: write_tag_random
+    # Optional variables:
     icon: "mdi:pencil-box"
     on_press:
       then:
@@ -91,7 +103,7 @@ button:
           brightness: 100%
           red: 100%
           green: 0%
-          blue: 100%
+          blue: 100%    
       - lambda: |-
           static const char alphanum[] = "0123456789abcdef";
           std::string uri = "https://www.home-assistant.io/tag/";
@@ -127,7 +139,7 @@ button:
           brightness: 100%
           red: 100%
           green: 64.7%
-          blue: 0%
+          blue: 0%    
       - lambda: 'id(pn532_board).clean_mode();'
       - rtttl.play: "write:d=24,o=5,b=100:b"
       - wait_until:
@@ -137,7 +149,7 @@ button:
           id: activity_led
       - rtttl.play: "write:d=24,o=5,b=100:b,b"
   - platform: template
-    name: Cancel writing
+    name: Cancel writing 
     id: cancel_writing
     icon: "mdi:pencil-off"
     on_press:
@@ -150,9 +162,12 @@ button:
   - platform: restart
     name: "${friendly_name} Restart"
     entity_category: config
-
+# Enable logging
 logger:
+  # level: VERY_VERBOSE
+  # level: VERBOSE
 
+# Enable Home Assistant API
 api:
   services:
   - service: rfidreader_tag_ok
@@ -178,7 +193,7 @@ api:
         brightness: 100%
         red: 100%
         green: 0%
-        blue: 0%
+        blue: 0%    
     - lambda: |-
         auto message = new nfc::NdefMessage();
         std::string uri = "https://www.home-assistant.io/tag/";
@@ -203,7 +218,7 @@ api:
         brightness: 100%
         red: 100%
         green: 0%
-        blue: 0%
+        blue: 0%    
     - lambda: |-
         auto message = new nfc::NdefMessage();
         std::string uri = "";
@@ -225,7 +240,18 @@ api:
         id: activity_led
     - rtttl.play: "write:d=24,o=5,b=100:b,b"
 
+# Enable OTA upgrade
 ota:
+  - platform: esphome
+    password: !secret ota_password
+  #- platform: http_request
+    
+i2c:
+  scan: True
+  frequency: 400kHz
+  scl: D1
+  sda: D2
+  id: pn532_bus
 
 globals:
   - id: source
@@ -234,13 +260,6 @@ globals:
     type: std::string
   - id: info
     type: std::string
-
-i2c:
-  scan: True
-  frequency: 400kHz
-  scl: D1
-  sda: D2
-  id: pn532_bus
 
 pn532_i2c:
   id: pn532_board
@@ -273,6 +292,17 @@ pn532_i2c:
             size_t applemusic = payload.find("https://music.apple.com");
             size_t spotify = payload.find("https://open.spotify.com");
             size_t sonos = payload.find("sonos-2://");
+            size_t mass_deezer = payload.find("deezer://");
+            size_t mass_filesystem_local = payload.find("filesystem_local://");
+            size_t mass_filesystem_smb = payload.find("filesystem_smb://");
+            size_t mass_plex = payload.find("plex://");
+            size_t mass_qobuz = payload.find("qobuz://");
+            size_t mass_radiobrowser = payload.find("radiobrowser://");
+            size_t mass_soundcloud = payload.find("soundcloud://");
+            size_t mass_spotify = payload.find("spotify://");
+            size_t mass_tidal = payload.find("tidal://");
+            size_t mass_tunein = payload.find("tunein://");
+            size_t mass_ytmusic = payload.find("ytmusic://");
 
             if (type == "U" and hass != std::string::npos ) {
               ESP_LOGD("tagreader", "Found Home Assistant tag NDEF");
@@ -294,6 +324,21 @@ pn532_i2c:
               ESP_LOGD("tagreader", "Found Sonos app tag NDEF");
               id(source)="sonos";
               id(url)=payload;
+            }
+            else if (type == "U" && (mass_deezer != std::string::npos ||
+                    mass_filesystem_local != std::string::npos ||
+                    mass_filesystem_smb != std::string::npos ||
+                    mass_plex != std::string::npos ||
+                    mass_qobuz != std::string::npos ||
+                    mass_radiobrowser != std::string::npos ||
+                    mass_soundcloud != std::string::npos ||
+                    mass_spotify != std::string::npos ||
+                    mass_tidal != std::string::npos ||
+                    mass_tunein != std::string::npos ||
+                    mass_ytmusic != std::string::npos)) {
+              ESP_LOGD("tagreader", "Found Music Assistant tag NDEF");
+              id(source) = "mass";
+              id(url) = payload;
             }
             else if (type == "T" ) {
               ESP_LOGD("tagreader", "Found music info tag NDEF");
@@ -341,7 +386,7 @@ pn532_i2c:
     then:
     - homeassistant.event:
         event: esphome.tag_removed
-
+# Define the buzzer output
 output:
 - platform: esp8266_pwm
   pin: D0
@@ -373,8 +418,8 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: true
     name: "Next"
-    icon: mdi:skip-next
-
+    icon: mdi:skip-next   
+    
 sensor:
   - platform: rotary_encoder
     id: knob
@@ -385,8 +430,9 @@ sensor:
     pin_b: D7
     min_value: 0
     max_value: 100
-    resolution: 1
+    resolution: 2
     icon: mdi:knob
+
 
 text_sensor:
   - platform: version
@@ -403,9 +449,11 @@ text_sensor:
       icon: mdi:wifi-strength-2
       entity_category: diagnostic
 
+# Define buzzer as output for RTTTL
 rtttl:
   output: buzzer
 
+# Configure LED
 light:
 - platform: neopixelbus
   variant: WS2812
@@ -421,3 +469,6 @@ light:
         name: "offline"
         update_interval: 2s
         transition_length: 1s
+
+mdns:
+  disabled: false
