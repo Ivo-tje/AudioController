@@ -42,21 +42,7 @@ variables:
 trigger:
 - platform: state
   device_id: !input ac_device
-# - platform: state
-#   entity_id: '{{ volume_knob }}'
-#   id: Volume
-# - platform: state
-#   entity_id: '{{ play_pause }}'
-#   id: Play
-#   from: 'on'
-# - platform: state
-#   entity_id: '{{ next_button }}'
-#   id: Next
-#   from: 'on'
-# - platform: state
-#   entity_id: '{{ previous_button }}'
-#   id: Previous
-#   from: 'on'
+
 condition: []
 action:
 - choose:
