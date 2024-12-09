@@ -21,12 +21,7 @@ blueprint:
 
 variables:
   audiocontroller: !input ac_device
-  volume_knob: >-
-    {% for entity in device_entities(audiocontroller) -%}
-      {%- if entity|regex_search("volume_knob") -%}
-        {{- entity.entity_id -}}
-      {%- endif -%}
-    {%- endfor -%}
+  volume_knob: {{device_entities(audiocontroller) | select('search', 'volume_knob') | list | first}}
   play_pause: >-
     {% for entity in device_entities(audiocontroller) -%}
       {%- if entity|regex_search("^\.play_pause") -%}
