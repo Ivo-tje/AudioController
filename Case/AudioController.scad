@@ -33,7 +33,7 @@ module Base(){
                     cylinder(d=5,h=31,$fn=25);
                     cylinder(d=1.7,h=31,$fn=25);
                 }
-            // PCB holder    
+            // PCB holder
             translate([34,33,2])
                 cube([1,36,3]);
             translate([62,33,2])
@@ -49,18 +49,18 @@ module Base(){
                   cube([20,20,5]);
             }
             // Buzzer mount
-            translate([8,50,8])
+            translate([8.5,50,8.5])
             rotate([90,0,0])
                 difference(){
-                    cylinder(d=14,h=9,$fn=50);
-                    cylinder(d=12,h=9,$fn=75);
+                    cylinder(d=15,h=9,$fn=50);
+                    cylinder(d=12.2,h=9,$fn=75);
                 }
         }
         // Edge for TopPlate
         translate([0.8,0.8,19])
         rotate([10,0,0])
             cube([98.4,69.4,25]);
-        // USB-C port    
+        // USB-C port
         hull() {
             translate([46.25,68,3.5])
               rotate([270,0,0])
@@ -71,14 +71,14 @@ module Base(){
         }
     }
 }
-    
+
     // Cover
 module TopPlate(){
     rotate([10,0,0])
         union(){
             difference(){
                 rotate([-10,0,0])
-                    difference(){   
+                    difference(){
                         translate([1,1,8])
                             rotate([10,0,0])
                                 cube([98,69,2]);
@@ -96,7 +96,7 @@ module TopPlate(){
                         cylinder(d=6.1,h=33,$fn=50);
                     translate([49,19.5,-7.5])
                         cylinder(d=7.1,h=16,$fn=50);
-                    
+
                     // LED
                     translate([49,30,7.3])
                         cylinder(d=10,h=2,$fn=25);
@@ -144,7 +144,7 @@ module TopPlate(){
                 translate([63,62.5,2.8])
                     cylinder(d=5,h=5,$fn=25);
                 translate([63,62.5,-4.2])
-                    cylinder(d=2.7,h=12,$fn=25);          
+                    cylinder(d=2.7,h=12,$fn=25);
             }
             // Anti tipping PN532
             translate([63,36.5,2.8])
@@ -153,7 +153,7 @@ module TopPlate(){
                 cylinder(d=5,h=5,$fn=25);
             }
 }
-    
+
     Base();
     //translate([0,0,10])
     //    TopPlate();
