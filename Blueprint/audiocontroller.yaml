@@ -41,7 +41,7 @@ trigger_variables:
 
 trigger:
 - platform: state
-  entity_id: '{{ volume_knob }}'
+  entity_id: !input volume_knob
   id: Volume
 - platform: state
   entity_id: '{{ play_pause }}'
