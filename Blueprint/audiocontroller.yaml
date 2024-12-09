@@ -42,13 +42,12 @@ variables:
 trigger:
 - platform: state
   device_id: !input ac_device
-
 condition: []
 action:
 - choose:
   - conditions:
     - condition: state
-      entity_id: '{{ vol_knob }}''
+      entity_id: '{{ vol_knob }}'
     sequence:
     - service: media_player.volume_set
       data_template:
