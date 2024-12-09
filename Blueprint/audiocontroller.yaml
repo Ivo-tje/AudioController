@@ -22,29 +22,22 @@ blueprint:
 trigger_variables:
   audiocontroller_id: !input ac_device
   audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
-
   volume_knob: >
     {{
       audiocontroller_entities | select("search", "sensor.volume_knob") | list | last
     }}
-  play_pause: >-
-    {% for entity in device_entities(audiocontroller) -%}
-      {%- if entity|regex_search("^\.play_pause") -%}
-        {{- entity.entity_id -}}
-      {%- endif -%}
-    {%- endfor -%}
-  next_button: >-
-    {% for entity in device_entities(audiocontroller) -%}
-      {%- if entity|regex_search("^\.next") -%}
-        {{- entity.entity_id -}}
-      {%- endif -%}
-    {%- endfor -%}
-  previous_button: >-
-    {% for entity in device_entities(audiocontroller) -%}
-      {%- if entity|regex_search("^\.previous") -%}
-        {{- entity.entity_id -}}
-      {%- endif -%}
-    {%- endfor -%}
+  play_pause: >
+   {{
+      audiocontroller_entities | select("search", "sensor.play_pause") | list | last
+    }}
+  next_button: >
+   {{
+      audiocontroller_entities | select("search", "sensor.next") | list | last
+    }}
+  previous_button: >
+    {{
+      audiocontroller_entities | select("search", "sensor.previous") | list | last
+    }}
 
 trigger:
 - platform: state
