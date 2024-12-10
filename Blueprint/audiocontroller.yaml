@@ -94,16 +94,15 @@ action:
       data: {}
       target:
         entity_id: !input media_player
-  - choose:
-      - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.source == "sonos" }}'
-        sequence:
-          - service: media_player.select_source
-            data:
-              source: '{{ trigger.event.data.info }}'
-            target:
-              entity_id: !input media_player
+   - conditions:
+     - condition: template
+       value_template: '{{ trigger.event.data.source == "sonos" }}'
+     sequence:
+     - service: media_player.select_source
+       data:
+       source: '{{ trigger.event.data.info }}'
+       target:
+         entity_id: !input media_player
     default:
       - service: media_player.play_media
         data:
