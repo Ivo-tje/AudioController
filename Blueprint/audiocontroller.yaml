@@ -103,12 +103,12 @@ action:
        source: '{{ trigger.event.data.info }}'
        target:
          entity_id: !input media_player
-    default:
-      - service: media_player.play_media
-        data:
-          media_content_type: music
-          media_content_id: '{{ trigger.event.data.url }}'
-        target:
-          entity_id: !input media_player
+  default:
+    - service: media_player.play_media
+      data:
+        media_content_type: music
+        media_content_id: '{{ trigger.event.data.url }}'
+      target:
+        entity_id: !input media_player
 mode: queued
 max: 10
