@@ -103,7 +103,7 @@ action:
             data:
               source: '{{ trigger.event.data.info }}'
             target:
-              entity_id: !input player
+              entity_id: !input media_player
     default:
       - service: media_player.play_media
         data:
