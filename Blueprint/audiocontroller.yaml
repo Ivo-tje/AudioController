@@ -41,9 +41,20 @@ variables:
 
 trigger:
 - platform: template
-  value_template: '{{ volume_knob }}'
+  entity: sensor.volume_knob
   id: Volume
-
+- platform: state
+  entity_id: '{{ play_pause }}'
+  id: Play
+  from: 'on'
+- platform: state
+  entity_id: '{{ next_button }}'
+  id: Next
+  from: 'on'
+- platform: state
+  entity_id: '{{ previous_button }}'
+  id: Previous
+  from: 'on'
 condition: []
 action:
 - choose:
