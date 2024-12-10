@@ -14,13 +14,12 @@ blueprint:
     media_player:
       name: Media player or group
       selector:
-        device:
-          entity:
-            domain: media_player
-          multiple: true
+        entity:
+          domain: media_player
 
 variables:
   audiocontroller_id: !input ac_device
+  reader: '{{ device_attr(audiocontroller_id, "name") }}'
   audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
   volume_knob: >
     {{
@@ -55,7 +54,11 @@ trigger:
   entity_id: '{{ previous_button }}'
   id: Previous
   from: 'on'
-condition: []
+  - platform: event
+    event_type: esphome.music_tag
+condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.reader == reader }}'
 action:
 - choose:
   - conditions:
@@ -91,4 +94,25 @@ action:
       data: {}
       target:
         entity_id: !input media_player
-mode: restart
+  - service: media_player.media_stop
+    target:
+      entity_id: !input player
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.source == "sonos" }}'
+        sequence:
+          - service: media_player.select_source
+            data:
+              source: '{{ trigger.event.data.info }}'
+            target:
+              entity_id: !input player
+    default:
+      - service: media_player.play_media
+        data:
+          media_content_type: music
+          media_content_id: '{{ trigger.event.data.url }}'
+        target:
+          entity_id: !input player
+mode: queued
+max: 10
