@@ -39,6 +39,8 @@ variables:
     }}
 
 trigger:
+- platform: event
+  event_type: esphome.music_tag
 - platform: template
   entity_id: sensor.volume_knob
   id: Volume
@@ -54,8 +56,6 @@ trigger:
   entity_id: '{{ previous_button }}'
   id: Previous
   from: 'on'
-- platform: event
-  event_type: esphome.music_tag
 condition:
   - condition: template
     value_template: '{{ trigger.event.data.reader == reader }}'
