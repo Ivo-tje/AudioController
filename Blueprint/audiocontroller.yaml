@@ -94,9 +94,6 @@ action:
       data: {}
       target:
         entity_id: !input media_player
-  - service: media_player.media_stop
-    target:
-      entity_id: !input player
   - choose:
       - conditions:
           - condition: template
