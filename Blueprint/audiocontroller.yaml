@@ -113,6 +113,6 @@ action:
           media_content_type: music
           media_content_id: '{{ trigger.event.data.url }}'
         target:
-          entity_id: !input player
+          entity_id: !input media_player
 mode: queued
 max: 10
