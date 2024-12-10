@@ -19,7 +19,6 @@ blueprint:
 
 variables:
   audiocontroller_id: !input ac_device
-  reader: '{{ device_attr(audiocontroller_id, "name") }}'
   audiocontroller_entities: '{{ device_entities(audiocontroller_id) }}'
   volume_knob: >
     {{
@@ -56,9 +55,6 @@ trigger:
   entity_id: '{{ previous_button }}'
   id: Previous
   from: 'on'
-condition:
-  - condition: template
-    value_template: '{{ trigger.event.data.reader == reader }}'
 action:
 - choose:
   - conditions:
@@ -92,22 +88,6 @@ action:
     sequence:
     - service: media_player.media_previous_track
       data: {}
-      target:
-        entity_id: !input media_player
-   - conditions:
-     - condition: template
-       value_template: '{{ trigger.event.data.source == "sonos" }}'
-     sequence:
-     - service: media_player.select_source
-       data:
-       source: '{{ trigger.event.data.info }}'
-       target:
-         entity_id: !input media_player
-  default:
-    - service: media_player.play_media
-      data:
-        media_content_type: music
-        media_content_id: '{{ trigger.event.data.url }}'
       target:
         entity_id: !input media_player
 mode: queued
