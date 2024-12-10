@@ -41,7 +41,7 @@ variables:
 
 trigger:
 - platform: template
-  entity: sensor.volume_knob
+  entity_id: sensor.volume_knob
   id: Volume
 - platform: state
   entity_id: '{{ play_pause }}'
